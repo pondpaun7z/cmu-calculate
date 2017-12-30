@@ -10,11 +10,11 @@ import { CmuSisService } from '../shared/service/cmu-sis/cmu-sis.service'
   ]
 })
 export class WelcomeComponent implements OnInit {
-  private subjects
-  private email: string
-  private password: string
-  private isLoading = false
-  private isError = false
+  subjects
+  email: string
+  password: string
+  isLoading = false
+  isError = false
 
   constructor(
     private cmuSisService: CmuSisService) { }

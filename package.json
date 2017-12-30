@@ -9,14 +9,16 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
+    "postinstall": "ng build --aot -prod",
     "deploy": "git push origin master && git push heroku master"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^4.0.0",
-    "@angular/cli": "1.2.4",
     "@angular/common": "^4.0.0",
-    "@angular/compiler": "^4.0.0",
+    "@angular/cli": "^1.4.9",
+    "@angular/compiler": "^4.2.4",
+    "@angular/compiler-cli": "^4.4.6",
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
     "@angular/http": "^4.0.0",
@@ -26,6 +28,7 @@
     "@types/jquery": "^3.2.12",
     "bootstrap": "4.0.0-beta",
     "core-js": "^2.4.1",
+    "enhanced-resolve": "3.3.0",
     "express": "^4.16.2",
     "font-awesome": "^4.7.0",
     "jquery": "^3.2.1",
@@ -35,8 +38,9 @@
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
-    "@angular/cli": "1.2.4",
-    "@angular/compiler-cli": "^4.0.0",
+    "@angular/cli": "^1.4.9",
+    "@angular/compiler": "^4.2.4",
+    "@angular/compiler-cli": "^4.4.6",
     "@angular/language-service": "^4.0.0",
     "@types/jasmine": "2.5.45",
     "@types/node": "~6.0.60",
