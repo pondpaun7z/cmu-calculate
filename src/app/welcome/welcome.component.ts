@@ -1,17 +1,25 @@
 import { Component, OnInit } from '@angular/core';
+import { CmuSisService } from '../shared/service/cmu-sis/cmu-sis.service'
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './welcome.component.html',
-  styleUrls: ['./welcome.component.scss']
+  styleUrls: ['./welcome.component.scss'],
+  providers: [
+    CmuSisService
+  ]
 })
 export class WelcomeComponent implements OnInit {
   private subjects
+  private email: string
+  private password: string
+  private isLoading = false
+  private isError = false
 
-  constructor() { }
+  constructor(
+    private cmuSisService: CmuSisService) { }
 
   ngOnInit() {
-    sessionStorage.clear();
     if (sessionStorage.getItem('subjects') !== null) {
       this.subjects =  JSON.parse(sessionStorage.getItem('subjects'))
     } else {
@@ -35,11 +43,15 @@ export class WelcomeComponent implements OnInit {
 
   totalGpa(): number {
     let totalGrade = 0.0
+    let calculatecredit = 0
     for (const subject of this.subjects) {
-      totalGrade += (subject.grade * subject.credit)
+      if (subject.grade > 0) {
+        totalGrade += (subject.grade * subject.credit)
+        calculatecredit += subject.credit
+      }
     }
 
-    return totalGrade / this.totalCredit()
+    return totalGrade / calculatecredit
   }
 
   remove(index) {
@@ -49,14 +61,54 @@ export class WelcomeComponent implements OnInit {
 
 
   clearSubjects() {
-    const confirmed = confirm("คุณต้องการลบวิชาทั้งหมด?")
+    const confirmed = confirm('คุณต้องการลบวิชาทั้งหมด?')
     if (!confirmed) { return }
-
     this.subjects = []
     this.saveSession()
+  }
+
+  gradeToN(grade: string): number {
+    if (grade === 'A') {
+      return 4
+    } else if (grade === 'B+') {
+      return 3.5
+    } else if (grade === 'B') {
+      return 3
+    } else if (grade === 'C+') {
+      return 2.5
+    } else if (grade === 'C') {
+      return 2
+    } else if (grade === 'D+') {
+      return 1.5
+    } else if (grade === 'D') {
+      return 1
+    } else if (grade === 'F') {
+      return 0
+    } else if (grade === 'S') {
+      return -2
+    } else {
+      return -1
+    }
+  }
+
+   submit() {
+    this.isLoading = true
+    this.isError = false
+    this.cmuSisService.getStudentEnroll(this.email, this.password)
+      .subscribe(resp => {
+        this.isLoading = false
+        this.subjects = resp;
+        this.subjects.map(subject => subject.grade = this.gradeToN(subject.grade))
+        this.saveSession()
+      }, error => {
+        this.isError = true
+        this.isLoading = false
+        console.log(error.json())
+      })
   }
 
   saveSession() {
     sessionStorage.setItem('subjects', JSON.stringify(this.subjects));
   }
+
 }
