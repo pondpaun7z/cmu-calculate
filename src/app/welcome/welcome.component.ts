@@ -47,8 +47,16 @@ export class WelcomeComponent implements OnInit {
     this.saveSession()
   }
 
+
+  clearSubjects() {
+    const confirmed = confirm("คุณต้องการลบวิชาทั้งหมด?")
+    if (!confirmed) { return }
+
+    this.subjects = []
+    this.saveSession()
+  }
+
   saveSession() {
     sessionStorage.setItem('subjects', JSON.stringify(this.subjects));
   }
-
 }
