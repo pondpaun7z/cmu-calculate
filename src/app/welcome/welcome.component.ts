@@ -55,7 +55,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   remove(index) {
-    this.subjects.slice(index, 1)
+    this.subjects.splice(index, 1)
     this.saveSession()
   }
 
