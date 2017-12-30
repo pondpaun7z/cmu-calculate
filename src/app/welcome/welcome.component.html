@@ -1,0 +1,43 @@
+<p>หน่วยกิจที่ใช้คำนวณ: {{ totalCredit() }}</p>
+<p>เกรดเฉลี่ยสะสม: {{ totalGpa() | number : '1.2-2' }}</p>
+
+
+<table class="table">
+  <thead>
+    <tr>
+      <th width="65%">ชื่อวิชา</th>
+      <th width="15%" class="text-center">หน่วยกิจ</th>
+      <th width="15%" class="text-center">เกรด</th>
+      <th width="5%" class="text-center"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let subject of subjects">
+      <td class="text-muted">
+        <input type="text" name="credit" [(ngModel)]="subject.title" class="form-control form-controle-sm" placeholder="ชื่อวิชา" (change)="saveSession()">
+      </td>
+      <td class="text-muted text-center">
+        <input type="number" name="credit" [(ngModel)]="subject.credit" class="form-control form-controle-sm">
+      </td>
+      <td class="text-muted text-center">
+        <select name="grade" [(ngModel)]="subject.grade" class="form-control form-control-sm">
+          <option value="4">A</option>
+          <option value="3.5">B+</option>
+          <option value="3">B</option>
+          <option value="2.5">C+</option>
+          <option value="2">C</option>
+          <option value="1.5">D+</option>
+          <option value="1">D</option>
+          <option value="0">F</option>
+        </select>
+      </td>
+      <td (click)="remove($index)">
+        <i class="fa fa-trash"></i>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<button class="btn btn-info" (click)="addSubject()">
+  เพิ่มวิชา
+</button>
