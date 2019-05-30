@@ -45,7 +45,7 @@ export class WelcomeComponent implements OnInit {
     let totalGrade = 0.0
     let calculatecredit = 0
     for (const subject of this.subjects) {
-      if (subject.grade > 0) {
+      if (subject.grade >= 0) {
         totalGrade += (subject.grade * subject.credit)
         calculatecredit += subject.credit
       }
@@ -58,7 +58,6 @@ export class WelcomeComponent implements OnInit {
     this.subjects.splice(index, 1)
     this.saveSession()
   }
-
 
   clearSubjects() {
     const confirmed = confirm('คุณต้องการลบวิชาทั้งหมด?')
